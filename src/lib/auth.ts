@@ -1,4 +1,3 @@
-"use client"; // optional, just to be safe for type inference
 
 import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -7,7 +6,12 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcryptjs";;
 
+
+console.log(process.env.GOOGLE_CLIENT_ID);
+console.log(process.env.GOOGLE_CLIENT_SECRET);
+
 export const authOptions: NextAuthOptions = {
+    
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -47,7 +51,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-
   session: {
     strategy: "jwt",
   },
@@ -88,4 +91,6 @@ export const authOptions: NextAuthOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
+
+  
 };

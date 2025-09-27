@@ -117,19 +117,30 @@ npm run dev
 Visit **http://localhost:3000**
  to view the app.
 
-📸 Screenshots
+## 📸 Screenshots
 
-Global Leaderboard
+Below are some screenshots of the application in action:
 
-Displays users ranked by overall score.
+### 🏠 Homepage  
+![Homepage Screenshot](./public/homepage.png)
 
-Quiz Taking Page
+### ✅ Main-Quiz-Layout  
+![Dashboard Screenshot](./public/main_quiz.png)
 
-Handles large code questions using pre-wrap and scrollable container.
+### 📊 Dashboard  
+![Dashboard Screenshot](./public/dashboard.png)
 
-Hierarchical Navigation
+### 📝 Topics  
+![Topics Screenshot](./public/all_topics.png)
 
-Clean flow from Field → Topics → Quiz list.
+### ❓ Quizzes  
+![Quiz Screenshot](./public/quiz.png)
+
+### 🏆 Leaderboard  
+![Leaderboard Screenshot](./public/leaderboard.png)
+
+> **Tip:** Put your images in a `public/screenshots` folder (or any folder in your repo) and update the paths above accordingly.
+
 
 **5. 🤝 Contribution**
 
