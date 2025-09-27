@@ -1,0 +1,125 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  coins         Int       @default(1000)
+  totalScore    Int       @default(0)
+  emailVerified DateTime? @map(name: "email_verified")
+  image         String?
+  role          String    @default("USER")
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
+  accounts     Account[]
+  sessions     Session[]
+  quizAttempts QuizAttempt[]
+
+  @@map(name: "users")
+}
+
+
+model Field {
+  id    String @id @default(cuid())
+  name  String @unique
+  topics Topic[]
+}
+
+
+model Topic {
+  id      String @id @default(cuid())
+  name    String @unique
+  fieldId String
+  field   Field  @relation(fields: [fieldId], references: [id])
+  quizzes Quiz[]
+}
+
+// Represents a specific quiz (e.g., 'Algebra Fundamentals', 'Cell Biology')
+model Quiz {
+  id           String        @id @default(cuid())
+  title        String
+  description  String        @db.Text
+  timeLimit    Int // In seconds
+  topicId      String
+  topic        Topic         @relation(fields: [topicId], references: [id])
+  questions    Question[]
+  quizAttempts QuizAttempt[]
+
+  @@unique([topicId, title])
+}
+
+// The individual question and its options
+model Question {
+  id            String   @id @default(cuid())
+  text          String   @db.Text
+  options       String[] // An array of strings for the multiple-choice options
+  correctAnswer String
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+// This is crucial for tracking user progress and for the 'View Answers' feature
+model QuizAttempt {
+  id          String   @id @default(cuid())
+  score       Int
+  timeTaken   Int // In seconds
+  userAnswers Json // Store user's answers as JSON (e.g., { "questionId": "userAnswer" })
+  createdAt   DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String  @map(name: "provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
