@@ -7,9 +7,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcryptjs";;
 
 
-console.log(process.env.GOOGLE_CLIENT_ID);
-console.log(process.env.GOOGLE_CLIENT_SECRET);
-
 export const authOptions: NextAuthOptions = {
     
   adapter: PrismaAdapter(prisma),
