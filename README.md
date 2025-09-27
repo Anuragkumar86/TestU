@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 TestU: The Modern Full-Stack Quiz Platform
 
-## Getting Started
+TestU is a cutting-edge, feature-rich web application designed for creating, taking, and managing timed quizzes. Built with the **Next.js App Router** and the **T3 Stack** (Next.js, TypeScript, Tailwind CSS, Prisma), TestU provides a fast, responsive, and engaging learning environment.
 
-First, run the development server:
+---
 
+## ✨ Features
+
+TestU is engineered to deliver a clean user experience for both administrators (quiz creators) and students (quiz takers).
+
+### 1. Competitive & Community Features
+- **Global Leaderboard**: Ranks users based on their `totalScore` derived from all quiz attempts, fostering a competitive environment and enabling users to track their progress.
+- **User Coins System**: Each user starts with a default 1000 coins, ready for future features like purchasing attempts or power-ups.
+
+### 2. Robust Quiz Engine & UX
+- **Optimized Rendering**: Utilizes Next.js Server Components for fast initial loads and type-safe data fetching.
+- **Dynamic Layout**: Handles large, multi-line questions (like code blocks) using `white-space: pre-wrap` and vertical scrolling (`overflow-y-auto`) for comfortable viewing.
+- **Optimized Navigation**: Uses `new Array(length).fill(0)` for predictable question navigation button creation.
+- **Global Search**: Debounced search bar for fast topic search and navigation.
+
+### 3. High-Integrity Test Environment (Proctoring)
+- **Time Management**: Real-time visible timer with strict time limits.
+- **Fullscreen Lock**: Enforces fullscreen during the test. Exiting fullscreen triggers overlay warnings and violation tracking.
+- **Auto-Submission**: Quizzes auto-submit when time expires or fullscreen violations exceed the limit.
+- **Detailed Tracking**: Logs `score`, `timeTaken`, and user-specific `userAnswers` for result review.
+
+### 4. Scalable Content Management (Admin)
+- **Hierarchical Navigation**: Three-tier content structure:
+  - **Field** (e.g., Computer Science, Mathematics)
+  - **Topic** (e.g., DSA, Calculus)
+  - **Quiz** (e.g., Trees & Graphs Fundamentals)
+- **Bulk Question Importer**: Supports multi-line, delimited format (`QUESTION || OPTION_A | OPTION_B | ... | ANSWER---`) for fast quiz creation.
+
+---
+
+## ⚙️ Technology Stack
+
+| Category    | Technology        | Purpose                                                 |
+|------------|-----------------|---------------------------------------------------------|
+| Framework  | Next.js (App Router) | React framework for Server Components and routing      |
+| Language   | TypeScript       | Strong type safety across the application             |
+| Styling    | Tailwind CSS     | Utility-first CSS for rapid, responsive UI            |
+| Database   | PostgreSQL       | Robust relational database                             |
+| ORM        | Prisma           | Type-safe database toolkit                              |
+
+---
+
+## 🔗 Project Links
+
+| Resource          | Link |
+|------------------|------|
+| Live Demo        | [] |
+| Video Explanation| [Coming Soon]    |
+
+---
+
+## 🛠️ Installation and Setup
+
+### Prerequisites
+- Node.js v18+
+- pnpm (recommended) or npm/yarn
+- PostgreSQL Database (local or cloud)
+
+### Steps
+
+**1. Clone the Repository**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [https://github.com/Anuragkumar86/TestU.git]
+cd TestU
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install Dependencies**
+```
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**3. Configure Environment Variables**
+Create .env in the root directory:
+```
+# Database Configuration
+DATABASE_URL="postgres://USER:PASSWORD@HOST:PORT/DATABASE"
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# NextAuth.js Configuration
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="YOUR_SECURE_SECRET"
 
-## Learn More
+# Google OAuth (if used)
+GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
 
-To learn more about Next.js, take a look at the following resources:
+# Cloudinary (for image uploads)
+CLOUD_NAME="YOUR_CLOUD_NAME"
+UPLOAD_PRESET_NAME="YOUR_UPLOAD_PRESET_NAME"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Gemini API
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Redis (for rate limiting)
+REDIS_URL="redis://USER:PASSWORD@HOST:PORT"
+```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**4.  Setup Database and Run Migrations**
+```
+# Apply schema changes, including Field/Topic linking
+npx prisma migrate dev --name init_full_schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Generate Prisma Client
+npx prisma generate
+
+
+Run the Development Server
+
+npm run dev
+```
+
+Visit **http://localhost:3000**
+ to view the app.
+
+📸 Screenshots
+
+Global Leaderboard
+
+Displays users ranked by overall score.
+
+Quiz Taking Page
+
+Handles large code questions using pre-wrap and scrollable container.
+
+Hierarchical Navigation
+
+Clean flow from Field → Topics → Quiz list.
+
+**5. 🤝 Contribution**
+
+This project is maintained by **Anurga Kumar**.
+Feel free to open an issue or submit a pull request for bug fixes or feature suggestions.
