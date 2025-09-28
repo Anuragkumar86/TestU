@@ -13,6 +13,8 @@ async function main() {
   await prisma.field.deleteMany();
   await prisma.user.deleteMany();
 
+
+  
   // 1️⃣ Create Fields
   const scienceField = await prisma.field.create({ data: { name: "Science" } });
   const historyField = await prisma.field.create({ data: { name: "History" } });
