@@ -32,7 +32,13 @@ export async function GET() {
                 coins: true,
                 totalScore: true,
                 createdAt: true,
+                accounts: {
+                    select:{
+                        provider: true
+                    }
+                }
             },
+           
         });
 
 

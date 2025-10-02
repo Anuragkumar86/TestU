@@ -165,13 +165,13 @@ export default function Navbar() {
                   onClick={() => signIn()}
                   className="px-4 py-2 text-indigo-600 border-2 border-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition"
                 >
-                  Log In
+                  Login
                 </button>
                 <Link
                   href="/auth/register"
                   className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transition"
                 >
-                  Sign Up
+                  Register
                 </Link>
               </div>
             )}
@@ -222,6 +222,12 @@ export default function Navbar() {
               >
                 Leaderboard
               </Link>
+              <Link
+                href="/profile"
+                className="block text-gray-700 font-medium hover:text-indigo-700"
+              >
+                Pofile
+              </Link>
               {status === "authenticated" ? (
                 <button
                   onClick={() => signOut()}
@@ -235,13 +241,13 @@ export default function Navbar() {
                     onClick={() => signIn()}
                     className="w-full px-5 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-lg hover:bg-fuchsia-600"
                   >
-                    Sign In
+                    Login
                   </button>
                   <Link
                     href="/auth/register"
                     className="block text-center w-full px-5 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-lg hover:bg-fuchsia-600"
                   >
-                    Sign Up
+                    Register
                   </Link>
                 </>
               )}

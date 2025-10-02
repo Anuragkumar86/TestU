@@ -10,7 +10,10 @@ import toast from "react-hot-toast";
 
 
 interface user extends User {
-    quizAttempts: QuizAttempt[],
+    // quizAttempts: QuizAttempt[],
+    accounts:{
+        provider: string
+    }[]
 }
 
 export default function MyProfilePage() {
@@ -147,7 +150,7 @@ export default function MyProfilePage() {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold"
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer"
                         >
                             Update Password
                         </button>
@@ -182,15 +185,26 @@ export default function MyProfilePage() {
                         <h2 className="mt-4 text-xl font-semibold">{user.name}</h2>
 
                         <div className="flex gap-3 mt-4">
-                            {/* <button className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
-                                Edit Profile
-                            </button> */}
-                            <button
+                            {user && user.accounts && user.accounts[0] &&  user.accounts[0].provider === "google" ? (
+                                <Link
+                                target="_blank"
+                                href={"https://myaccount.google.com/security"}
+                                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow cursor-pointer"
+                            >
+                            Manage Password on Google
+
+                            </Link>
+                            ): (
+                                <button
                                 onClick={() => setShowPasswordForm(true)}
                                 className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow cursor-pointer"
                             >
                                 Change Password
                             </button>
+                            )
+                            
+                            }
+                            
 
                         </div>
                     </div>

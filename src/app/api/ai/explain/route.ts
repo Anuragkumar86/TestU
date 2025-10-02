@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const rateLimited = await isRateLimited(userId);
     if (rateLimited) {
         return NextResponse.json(
-            { "message": "Too many requests. Please try again after a minute." },
+            { "message": "Too many requests -- Only 4 requests/minute. Please try again after a minute." },
             {
                 status: 429,
                 headers: {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
 
     // The rest of your API logic remains the same.
-    if (!question || !options || !userAnswer) {
+    if (!question || !options) {
         return NextResponse.json({ error: 'Missing required question details.' }, { status: 400 });
     }
 
@@ -67,7 +67,8 @@ export async function POST(request: Request) {
     };
 
     const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // Change to the lightest model: gemini-2.5-flash-lite
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`;;
 
     try {
         const response = await axiosInstance.post(apiUrl, payload, {});

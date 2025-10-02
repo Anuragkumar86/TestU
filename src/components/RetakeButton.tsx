@@ -44,7 +44,7 @@ export default function RetakeButton({ quizId, topicNameSlug, quizTitle }: Retak
         <button
             onClick={handleRetake}
             disabled={isRetaking}
-            className="inline-block w-full md:w-auto text-center bg-green-600 text-white font-semibold py-2 px-2 mx-2 rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="w-45 inline-block md:w-auto text-center bg-green-600 text-white font-semibold md:py-2 px-2 mx-2 rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
             {isRetaking ? 'Processing...' : (
                 <>

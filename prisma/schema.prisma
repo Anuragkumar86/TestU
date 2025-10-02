@@ -1,4 +1,3 @@
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,78 +8,72 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String?   @unique
-  password      String?
-  coins         Int       @default(1000)
-  totalScore    Int       @default(0)
-  emailVerified DateTime? @map(name: "email_verified")
-  image         String?
-  role          String    @default("USER")
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  id               String        @id @default(uuid())
+  name             String?
+  email            String?       @unique
+  password         String?
+  coins            Int           @default(1000)
+  totalScore       Int           @default(0)
+  emailVerified    DateTime?     @map("email_verified")
+  image            String?
+  role             String        @default("USER")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @default(now()) @map("updated_at")
+  resetToken       String?
+  expireResetToken DateTime?
+  accounts         Account[]
+  quizAttempts     QuizAttempt[]
+  sessions         Session[]
 
-  accounts     Account[]
-  sessions     Session[]
-  quizAttempts QuizAttempt[]
-
-  @@map(name: "users")
+  @@map("users")
 }
 
-
 model Field {
-  id    String @id @default(cuid())
-  name  String @unique
+  id     String  @id @default(cuid())
+  name   String  @unique
   topics Topic[]
 }
 
-
 model Topic {
-  id      String @id @default(cuid())
-  name    String @unique
-  fieldId String
-  field   Field  @relation(fields: [fieldId], references: [id])
+  id      String  @id @default(cuid())
+  name    String  @unique
+  fieldId String?
   quizzes Quiz[]
+  field   Field?  @relation(fields: [fieldId], references: [id])
 }
 
-// Represents a specific quiz (e.g., 'Algebra Fundamentals', 'Cell Biology')
 model Quiz {
   id           String        @id @default(cuid())
   title        String
-  description  String        @db.Text
-  timeLimit    Int // In seconds
+  description  String
+  timeLimit    Int
   topicId      String
-  topic        Topic         @relation(fields: [topicId], references: [id])
   questions    Question[]
+  topic        Topic         @relation(fields: [topicId], references: [id])
   quizAttempts QuizAttempt[]
 
   @@unique([topicId, title])
 }
 
-// The individual question and its options
 model Question {
   id            String   @id @default(cuid())
-  text          String   @db.Text
-  options       String[] // An array of strings for the multiple-choice options
+  text          String
+  options       String[]
   correctAnswer String
   quizId        String
   quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
-// This is crucial for tracking user progress and for the 'View Answers' feature
 model QuizAttempt {
   id          String   @id @default(cuid())
   score       Int
-  timeTaken   Int // In seconds
-  userAnswers Json // Store user's answers as JSON (e.g., { "questionId": "userAnswer" })
+  timeTaken   Int
+  userAnswers Json
   createdAt   DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  quizId String
-  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  userId      String
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Account {
@@ -88,16 +81,15 @@ model Account {
   userId            String
   type              String
   provider          String
-  providerAccountId String  @map(name: "provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }

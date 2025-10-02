@@ -36,7 +36,7 @@ export function useFullscreenQuiz(
     // ✅ Detect tab switching / window blur
     const handleVisibilityChange = () => {
       if (document.hidden && !quizSubmitted) {
-        setViolationCount((count) => count + 1);
+        setViolationCount((count) => Math.min(count + 1, 3));
       }
     };
 
@@ -73,7 +73,7 @@ export function useFullscreenQuiz(
 
   // ✅ Auto-submit after 3 violations
   useEffect(() => {
-    if (violationCount >= 4 && !quizSubmitted) {
+    if (violationCount >= 3 && !quizSubmitted) {
       onForceSubmit();
     }
   }, [violationCount, quizSubmitted, onForceSubmit]);

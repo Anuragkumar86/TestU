@@ -1,6 +1,7 @@
 "use client"
 
 import RetakeButton from "@/components/RetakeButton";
+import DashboardSkeleton from "@/components/skeleton/DashBoardSkeleton";
 import axiosInstance from "@/lib/axiosInstance";
 import { Question, Quiz, QuizAttempt, Topic } from "@prisma/client";
 import { isAxiosError } from "axios";
@@ -24,11 +25,13 @@ export default function DashBoardPage() {
     const searchParams = useSearchParams();
     const currentPage = parseInt(searchParams.get("page") || "1");
 
-    const [attempts, setUserAttempts] = useState<quizAttemptsProps[]>([]);
-    const [totalCount, setTotalCount] = useState(0); // This is now for pagination
-    const [overallPassedCount, setOverallPassedCount] = useState(0);
-    const [overallAvgPercentage, setOverallAvgPercentage] = useState(0);
-    const [allAttemptsForRetake, setAllAttemptsForRetake] = useState<quizAttemptsProps[]>([]);
+    const [totalCount, setTotalCount] = useState<number | null>(null);
+    const [overallPassedCount, setOverallPassedCount] = useState<number | null>(null);
+    const [overallAvgPercentage, setOverallAvgPercentage] = useState<number | null>(null);
+    const [attempts, setUserAttempts] = useState<quizAttemptsProps[] | null>(null);
+    const [allAttemptsForRetake, setAllAttemptsForRetake] = useState<quizAttemptsProps[] | null>(null);
+
+
     const [error, setError] = useState("");
     const { data: session, status } = useSession();
 
@@ -57,9 +60,13 @@ export default function DashBoardPage() {
         }
     }, [session, currentPage]);
 
+    if (!attempts || !totalCount || !overallPassedCount || !overallAvgPercentage) {
+        return <DashboardSkeleton />; // import your skeleton manually
+    }
+
     // Calculate total pages for pagination buttons
     const pageSize = 30;
-    const totalPages = Math.ceil(totalCount / pageSize);
+    const totalPages = Math.ceil((totalCount) / pageSize);
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
@@ -67,9 +74,7 @@ export default function DashBoardPage() {
         }
     };
 
-    if (status === "loading") {
-        return <div className="text-gray-500 text-center mt-10">Checking session...</div>;
-    }
+
 
     if (status === "unauthenticated") {
         return (
@@ -84,25 +89,28 @@ export default function DashBoardPage() {
             </div>
         );
     }
-    
+
     // The calculations below are no longer needed as the values are coming from the API
     // and were causing the incorrect display of data.
     // We are now using the state variables that are populated from the API call.
 
     // Calculate quizzes to retake (failed quizzes) from the full list
     const latestAttempts = new Map();
-    allAttemptsForRetake.forEach(attempt => {
-        if (!latestAttempts.has(attempt.quiz.id)) {
-            latestAttempts.set(attempt.quiz.id, attempt);
-        }
-    });
+    if (allAttemptsForRetake) {
+
+        allAttemptsForRetake.forEach(attempt => {
+            if (!latestAttempts.has(attempt.quiz.id)) {
+                latestAttempts.set(attempt.quiz.id, attempt);
+            }
+        });
+    }
 
     const quizzesToRetake = Array.from(latestAttempts.values()).filter(latestAttempt => {
         const totalQuestions = latestAttempt.quiz.questions.length;
         return (latestAttempt.score / totalQuestions) * 100 < 60;
     });
 
-    console.log("RETAKE:", quizzesToRetake);
+    // console.log("RETAKE:", quizzesToRetake);
     return (
         <div className="container mx-auto p-4 md:p-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Your Progress Dashboard 📈</h1>
@@ -119,7 +127,7 @@ export default function DashBoardPage() {
                 </div>
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold text-gray-600">Average Score %</h2>
-                    <p className="text-4xl font-bold text-orange-600 mt-2">{overallAvgPercentage.toFixed(2)}%</p>
+                    <p className="text-4xl font-bold text-orange-600 mt-2">{overallAvgPercentage && overallAvgPercentage.toFixed(2)}%</p>
                 </div>
             </div>
 
@@ -138,7 +146,7 @@ export default function DashBoardPage() {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {attempts.map((attempt) => {
+                            {attempts && attempts.map((attempt) => {
                                 const totalQuestions = attempt.quiz.questions.length;
                                 const isPassed = (attempt.score / totalQuestions) * 100 >= 60;
                                 return (
@@ -189,7 +197,7 @@ export default function DashBoardPage() {
                                     className={`px-4 py-2 rounded-lg font-semibold ${currentPage === index + 1
                                         ? "bg-blue-600 text-white"
                                         : "bg-gray-200 text-gray-700"
-                                    }`}
+                                        }`}
                                 >
                                     {index + 1}
                                 </button>
@@ -215,25 +223,25 @@ export default function DashBoardPage() {
                         {quizzesToRetake.map((attempt) => (
                             <div key={attempt.id} className="bg-gray-200 p-4 rounded-lg border border-gray-400 hover:shadow-lg transition-shadow hover:scale-102">
                                 {/* <a href={`/quizzes/${attempt.quiz.topic.name.replaceAll(" ", "-")}/${attempt.quiz.title.replaceAll(" ", "-")}`} className="block"> */}
-                                    <h3 className="font-bold text-lg text-indigo-700">{attempt.quiz.title}</h3>
-                                    <p className="text-sm text-gray-500">Topic: {attempt.quiz.topic.name}</p>
-                                    <p className="text-sm text-red-500">Last Score: {attempt.score}/{attempt.quiz.questions.length}</p>
+                                <h3 className="font-bold text-lg text-indigo-700">{attempt.quiz.title}</h3>
+                                <p className="text-sm text-gray-500">Topic: {attempt.quiz.topic.name}</p>
+                                <p className="text-sm text-red-500">Last Score: {attempt.score}/{attempt.quiz.questions.length}</p>
 
-                                    <p className="text-sm text-yellow-800">Last Taken: {(new Date(attempt.createdAt).toLocaleString("en-US", {
-                                        day: "numeric",
-                                        month: "short",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                    }))}</p>
+                                <p className="text-sm text-yellow-800">Last Taken: {(new Date(attempt.createdAt).toLocaleString("en-US", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                }))}</p>
 
-                                    <div className="flex float-end mt-2">
-                                    <RetakeButton  quizId={attempt.quiz.id} topicNameSlug={attempt.quiz.topic.name} quizTitle={attempt.quiz.title}/>
-                                    </div>
+                                <div className="flex float-end mt-2">
+                                    <RetakeButton quizId={attempt.quiz.id} topicNameSlug={attempt.quiz.topic.name} quizTitle={attempt.quiz.title} />
+                                </div>
                                 {/* </a> */}
                             </div>
-                            
+
                         ))}
                     </ul>
                 </div>

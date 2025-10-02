@@ -2,8 +2,8 @@ import Redis from 'ioredis';
 
 const redis = new Redis(process.env.REDIS_URL as string);
 
-const REQUESTS_PER_MINUTE = 1;
-const WINDOW_IN_SECONDS = 120; // 2 minutes
+const REQUESTS_PER_MINUTE = 4;
+const WINDOW_IN_SECONDS = 60;
 
 export const isRateLimited = async (userId: string): Promise<boolean> => {
     // We'll create a unique key for each user's request count in Redis.
