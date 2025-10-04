@@ -29,7 +29,7 @@ export default function ContactPage() {
           Contact ThinkLix
         </h1>
         <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
-          Have any questions or suggestions? Fill out the form below and we'll get back to you!
+          Have any questions or suggestions? Fill out the form below and we will get back to you!
         </p>
 
         {submitted && (

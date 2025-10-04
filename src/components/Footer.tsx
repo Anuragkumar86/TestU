@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-6 mt-16">
@@ -12,14 +14,14 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links in a single row */}
+        {/* Links in Link single row */}
         <div className="flex flex-wrap gap-4 text-sm md:text-base">
-          <a href="/" className="hover:text-indigo-400 transition">Home</a>
-          <a href="/dashboard" className="hover:text-indigo-400 transition">Dashboard</a>
-          <a href="/fields" className="hover:text-indigo-400 transition">Fields</a>
-          <a href="/quizzes" className="hover:text-indigo-400 transition">Quizzes</a>
-          <a href="/about" className="hover:text-indigo-400 transition">About Us</a>
-          <a href="/contact" className="hover:text-indigo-400 transition">Contact</a>
+          <Link href="/" className="hover:text-indigo-400 transition">Home</Link>
+          <Link href="/dashboard" className="hover:text-indigo-400 transition">Dashboard</Link>
+          <Link href="/fields" className="hover:text-indigo-400 transition">Fields</Link>
+          <Link href="/quizzes" className="hover:text-indigo-400 transition">Quizzes</Link>
+          <Link href="/about" className="hover:text-indigo-400 transition">About Us</Link>
+          <Link href="/contact" className="hover:text-indigo-400 transition">Contact</Link>
         </div>
       </div>
 
