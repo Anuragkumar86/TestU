@@ -52,12 +52,14 @@ export default function DashBoardPage() {
         if (status === "authenticated") getAllQuizAttempts();
     }, [session, currentPage]);
 
-    if (!attempts || !totalCount || !overallPassedCount || !overallAvgPercentage) {
+
+    if (status === "loading") {
         return <DashboardSkeleton />;
     }
 
+    
     const pageSize = 30;
-    const totalPages = Math.ceil(totalCount / pageSize);
+    const totalPages = Math.ceil(totalCount ?? 0 / pageSize);
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) router.push(`?page=${page}`);
@@ -85,7 +87,7 @@ export default function DashBoardPage() {
     }
     const quizzesToRetake = Array.from(latestAttempts.values()).filter(latestAttempt => {
         const totalQuestions = latestAttempt.quiz.questions.length;
-        return (latestAttempt.score / totalQuestions) * 100 < 60;
+        return (latestAttempt.score / totalQuestions) * 100 < 50;
     });
 
     return (
@@ -106,7 +108,7 @@ export default function DashBoardPage() {
                 </div>
                 <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl shadow-xl transform hover:scale-105 transition duration-300">
                     <h2 className="text-xl font-semibold text-gray-300">Average Score %</h2>
-                    <p className="text-4xl font-bold text-yellow-400 mt-2">{overallAvgPercentage.toFixed(2)}%</p>
+                    <p className="text-4xl font-bold text-yellow-400 mt-2">{overallAvgPercentage && overallAvgPercentage.toFixed(2)}%</p>
                 </div>
             </div>
 
@@ -125,7 +127,7 @@ export default function DashBoardPage() {
                             </tr>
                         </thead>
                         <tbody className="bg-gray-800 divide-y divide-gray-700">
-                            {attempts.map((attempt) => {
+                            {attempts && attempts.map((attempt) => {
                                 const totalQuestions = attempt.quiz.questions.length;
                                 const isPassed = (attempt.score / totalQuestions) * 100 >= 60;
                                 return (

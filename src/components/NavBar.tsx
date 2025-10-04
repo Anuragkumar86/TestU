@@ -59,7 +59,7 @@ export default function Navbar() {
             aria-label="Homepage"
           >
             Think
-            <span className="text-yellow-400 drop-shadow-lg select-none ml-1">lix</span>
+            <span className="text-yellow-400 drop-shadow-lg select-none ml-1">Lix</span>
           </Link>
 
           {/* Desktop Search */}

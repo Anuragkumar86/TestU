@@ -1,5 +1,6 @@
 
 "use client";
+import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 
@@ -172,12 +173,7 @@ export default function LandingPage() {
       </motion.section>
 
       {/* Footer */}
-      <footer className="py-8 bg-black border-t border-gray-800 text-center text-gray-500 text-sm">
-        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-center items-center gap-3">
-          <span>© {new Date().getFullYear()} Thinklix</span>
-          <span className="hidden sm:inline">All subjects. All quizzes. All for you.</span>
-        </div>
-      </footer>
+      <Footer/>
     </main>
   );
 }
