@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import LeaderBoard from '@/components/LeaderBoard';
 import prisma from '@/lib/prisma';
 import { User } from '@prisma/client';

@@ -50,12 +50,11 @@ export function useFullscreenQuiz(
     // ✅ Detect page refresh / close
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!quizSubmitted) {
-        onForceSubmit();
         e.preventDefault();
-        e.returnValue =
-          "Are you sure you want to leave? Your progress will be lost.";
+        e.returnValue = "Are you sure you want to leave?";
       }
     };
+
 
     // Attach listeners
     document.addEventListener("fullscreenchange", handleFullscreenChange);

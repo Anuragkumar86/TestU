@@ -1,91 +1,90 @@
+
 "use client";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 
 export default function LandingPage() {
-
   const { data: session } = useSession();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#ECF0FF] via-[#F3FADF] to-[#F0FFF0] flex flex-col">
-      {/* Hero Section with Animation */}
+    <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black flex flex-col text-white">
+      {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex flex-col items-center justify-center text-center py-20 px-4 md:px-8 bg-gradient-to-r from-[#72E1D1] via-[#A9A1FF] to-[#B8FFD8] "
+        className="flex flex-col items-center justify-center text-center py-24 px-6 relative overflow-hidden"
       >
+        {/* Animated Background Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-700/30 via-cyan-600/30 to-green-500/30 blur-3xl opacity-50" />
+
         <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-[#2590FF] via-[#7B51FF] to-[#22C37B] text-transparent bg-clip-text animate-fade-in mb-5"
+          className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-cyan-400 via-purple-400 to-green-400 text-transparent bg-clip-text drop-shadow-lg relative z-10"
         >
-          T estU – Unleash Your Curiosity
+          Thinklix – Master Every Quiz
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="max-w-2xl mx-auto text-gray-700 text-lg md:text-2xl font-medium mb-8"
+          className="max-w-2xl mx-auto text-gray-300 text-lg md:text-2xl font-medium mt-6 relative z-10"
         >
-          Thousands of expertly designed quizzes. Every subject, every field.<br />
-          Compete, learn, and master MCQs in science, tech, humanities, and more.
+          Thousands of quizzes across science, tech, humanities, and more. <br />
+          Learn, compete, and rise to the top.
         </motion.p>
+
         <motion.a
-          whileHover={{ scale: 1.07, boxShadow: "0px 4px 24px #22c37b44" }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.08, boxShadow: "0px 6px 24px rgba(0,255,180,0.4)" }}
+          whileTap={{ scale: 0.96 }}
           href="/fields"
-          className="inline-block mt-1 md:mt-4 px-10 py-4 rounded-full font-bold text-lg bg-gradient-to-r from-[#22C37B] via-[#2590FF] to-[#7B51FF] text-white shadow-xl transition-all"
+          className="mt-8 px-10 py-4 rounded-full font-bold text-lg bg-gradient-to-r from-green-500 via-cyan-500 to-purple-500 text-white shadow-2xl transition-all relative z-10"
         >
           Start Your First Quiz
         </motion.a>
-        <div className="mt-8 flex flex-wrap gap-6 justify-center">
-          {[{
-            count: "1000+",
-            text: "MCQ Questions",
-            color: "#7B51FF"
-          }, {
-            count: "10+",
-            text: "Topics & Subjects",
-            color: "#2590FF"
-          }, {
-            count: "Leaderboard",
-            text: "Solve - Gain Score & Rank Up",
-            color: "#22C37B"
-          }].map((s, i) => (
+
+        {/* Stats */}
+        <div className="mt-12 flex flex-wrap gap-6 justify-center relative z-10">
+          {[
+            { count: "1000+", text: "MCQs", color: "text-purple-400" },
+            { count: "10+", text: "Subjects", color: "text-cyan-400" },
+            { count: "Leaderboard", text: "Climb & Compete", color: "text-green-400" },
+          ].map((s, i) => (
             <motion.div
               key={s.text}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + i * 0.13, duration: 0.6 }}
-              className="py-3 px-7 rounded-xl bg-white/80 shadow flex flex-col items-center min-w-[124px]"
+              transition={{ delay: 0.6 + i * 0.15, duration: 0.6 }}
+              className="py-4 px-8 rounded-2xl bg-gray-800/80 border border-gray-700 shadow-lg flex flex-col items-center"
             >
-              <span className="text-2xl font-bold" style={{ color: s.color }}>{s.count}</span>
-              <span className="text-xs md:text-sm text-gray-600">{s.text}</span>
+              <span className={`text-2xl font-extrabold ${s.color}`}>{s.count}</span>
+              <span className="text-sm text-gray-400">{s.text}</span>
             </motion.div>
           ))}
         </div>
       </motion.section>
 
-      {/* Animated Features Section */}
-      <section className="max-w-6xl mx-auto py-14 md:py-20 grid grid-cols-1 md:grid-cols-3 gap-8 px-3 md:px-6">
+      {/* Features */}
+      <section className="max-w-7xl mx-auto py-20 px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
         {[
           {
             title: "Endless Variety",
-            desc: "Find quizzes on every possible field. From core academics to cutting-edge technology and fun trivia, new questions are added daily.",
-            ring: "from-[#7B51FF] to-[#22C37B]"
+            desc: "From academics to trivia—quizzes updated daily.",
+            ring: "from-purple-500 to-green-400",
           },
           {
-            title: "Instant Feedback & Solutions",
-            desc: "See your score, view detailed answers, and learn immediately—grow your knowledge with every quiz you take.",
-            ring: "from-[#22C37B] to-[#2590FF]"
+            title: "Instant Feedback",
+            desc: "See scores, explanations, and learn instantly.",
+            ring: "from-green-400 to-cyan-500",
           },
           {
-            title: "Gamified Progression",
-            desc: "Earn coins for every quiz, climb the leaderboard, unlock badges, and track your total score as you progress.",
-            ring: "from-[#2590FF] to-[#7B51FF]"
-          }
+            title: "Gamified Progress",
+            desc: "Earn coins, badges, and rise on the leaderboard.",
+            ring: "from-cyan-500 to-purple-500",
+          },
         ].map((f, i) => (
           <motion.div
             key={f.title}
@@ -93,46 +92,43 @@ export default function LandingPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 * i, duration: 0.7 }}
-            className="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center hover:-translate-y-2 hover:shadow-2xl transition-all"
+            className="bg-gradient-to-b from-gray-800/60 to-gray-900/90 border border-gray-700 rounded-2xl p-10 shadow-lg flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all"
           >
-            <div className={`h-16 w-16 mb-3 rounded-full bg-gradient-to-br ${f.ring} flex items-center justify-center text-white font-extrabold text-lg shadow-md`}>
+            <div
+              className={`h-16 w-16 mb-4 rounded-full bg-gradient-to-br ${f.ring} flex items-center justify-center text-white font-extrabold text-lg shadow-md`}
+            >
               {i + 1}
             </div>
-            <h3 className={`text-lg font-semibold mb-2`}>{f.title}</h3>
-            <p className="text-gray-600 text-center text-base">{f.desc}</p>
+            <h3 className="text-xl font-bold mb-2">{f.title}</h3>
+            <p className="text-gray-400 text-center">{f.desc}</p>
           </motion.div>
         ))}
       </section>
 
-      {/* Stepper Animation Section */}
-      <section className="bg-white py-14 md:py-18 px-6 border-t border-gray-200">
+      {/* Stepper Section */}
+      <section className="bg-gray-900 py-20 px-6 border-t border-gray-800">
         <motion.h2
           initial={{ opacity: 0, y: -18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#2590FF] via-[#7B51FF] to-[#22C37B] text-transparent bg-clip-text text-center mb-10"
+          className="text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-cyan-400 via-purple-400 to-green-400 text-transparent bg-clip-text mb-14"
         >
-          How TestU Works
+          How It Works
         </motion.h2>
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 text-center">
-          {[
-            "Sign up instantly",
-            "Search any topic",
-            "Answer timed MCQs",
-            "Earn coins & rise"
-          ].map((step, i) => (
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+          {["Sign up", "Pick topic", "Solve timed MCQs", "Earn & Rise"].map((step, i) => (
             <motion.div
               key={step}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.09, duration: 0.6 + i * 0.06 }}
+              transition={{ delay: i * 0.1, duration: 0.7 }}
             >
-              <div className="mb-3 h-10 w-10 mx-auto rounded-full bg-gradient-to-r from-[#7B51FF] to-[#22C37B] flex items-center justify-center text-white font-extrabold">
+              <div className="mb-4 h-12 w-12 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-green-400 flex items-center justify-center text-white font-bold">
                 {i + 1}
               </div>
-              <p className="text-gray-700 font-semibold text-sm md:text-base">{step}</p>
+              <p className="text-gray-300 font-medium">{step}</p>
             </motion.div>
           ))}
         </div>
@@ -140,47 +136,49 @@ export default function LandingPage() {
 
       {/* CTA */}
       <motion.section
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col items-center justify-center py-14 md:py-20 bg-gradient-to-r from-[#A9A1FF] via-[#72E1D1] to-[#22C37B] px-3"
+        className="flex flex-col items-center justify-center py-24 bg-gradient-to-r from-purple-600 via-cyan-600 to-green-500 px-6 text-center"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow">Ready to Challenge Yourself?</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 drop-shadow-lg">
+          Ready to Take the Challenge?
+        </h2>
 
         {session && session.user && session.user.email ? (
           <motion.a
-            whileHover={{ scale: 1.09, backgroundColor: "#7B51FF", color: "#fff" }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
             href="/fields"
-            className="mt-4 px-8 py-3 rounded-full font-bold text-lg bg-white text-[#22C37B] shadow-xl transition-all"
+            className="px-10 py-4 rounded-full font-bold text-lg bg-white text-gray-900 shadow-lg transition-all"
           >
-            Explore All Quiz
+            Explore All Quizzes
           </motion.a>
         ) : (
           <motion.a
-            whileHover={{ scale: 1.09, backgroundColor: "#7B51FF", color: "#fff" }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
             href="/auth/register"
-            className="mt-4 px-8 py-3 rounded-full font-bold text-lg bg-white text-[#22C37B] shadow-xl transition-all"
+            className="px-10 py-4 rounded-full font-bold text-lg bg-white text-gray-900 shadow-lg transition-all"
           >
-            Join TestU Now
+            Join Thinklix Now
           </motion.a>
         )}
 
-        <p className="mt-2 text-white/90 text-base md:text-lg font-medium">
-          Compete with others, unlock achievements, and become a quiz master!
+        <p className="mt-4 text-gray-100/90 text-lg max-w-xl">
+          Compete globally, unlock rewards, and become a quiz master.
         </p>
       </motion.section>
 
       {/* Footer */}
-      <footer className="py-8 bg-gray-800 text-center text-gray-200 text-sm border-t border-gray-200 mt-8">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-center items-center gap-2">
-          <span>© {new Date().getFullYear()} TestU.</span>
-          <span className="hidden sm:inline">All quizzes. All topics. All for you.</span>
+      <footer className="py-8 bg-black border-t border-gray-800 text-center text-gray-500 text-sm">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-center items-center gap-3">
+          <span>© {new Date().getFullYear()} Thinklix</span>
+          <span className="hidden sm:inline">All subjects. All quizzes. All for you.</span>
         </div>
       </footer>
-
     </main>
   );
 }
+

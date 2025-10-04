@@ -1,51 +1,57 @@
-export default function TopicQuizzesSkeleton() {
+
+"use client";
+
+export default function AllSubTopicsSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-fuchsia-100 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-900 py-16 px-0 animate-pulse">
-      <div className="w-full px-8">
+    <div className="min-h-screen bg-gradient-to-tr from-black via-gray-900 to-indigo-900 py-16 px-6 text-white animate-pulse">
+      <div className="max-w-7xl mx-auto space-y-12">
         {/* Header */}
-        <header className="mb-16 text-center">
-          <div className="h-10 w-72 bg-gray-300 dark:bg-gray-700 rounded-lg mx-auto mb-4"></div>
-          <div className="h-5 w-80 bg-gray-200 dark:bg-gray-600 rounded-lg mx-auto"></div>
-        </header>
+        <div className="text-center space-y-4">
+          <div className="h-10 w-2/3 bg-gray-700 rounded-lg mx-auto" />
+          <div className="h-4 w-1/2 bg-gray-600 rounded mx-auto" />
+        </div>
 
-        {/* Search Box */}
-        <section className="mb-12 flex justify-center">
-          <div className="w-full max-w-md h-12 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg"></div>
-        </section>
+        {/* Search box */}
+        <div className="flex justify-center">
+          <div className="h-12 w-full max-w-md bg-gray-800 rounded-xl border border-cyan-700" />
+        </div>
 
-        {/* Table Skeleton */}
-        <div className="overflow-x-auto w-full rounded-2xl shadow-2xl border border-blue-300 dark:border-blue-700 bg-blue-900 dark:bg-gray-800">
-          {/* Table Header */}
-          <div className="grid grid-cols-4 gap-4 px-6 py-4 bg-blue-900 dark:bg-blue-900">
-            <div className="h-4 w-24 bg-blue-300/40 dark:bg-blue-600/40 rounded"></div>
-            <div className="h-4 w-20 bg-blue-300/40 dark:bg-blue-600/40 rounded mx-auto"></div>
-            <div className="h-4 w-20 bg-blue-300/40 dark:bg-blue-600/40 rounded mx-auto"></div>
-            <div className="h-4 w-24 bg-blue-300/40 dark:bg-blue-600/40 rounded mx-auto"></div>
-          </div>
-
-          {/* Table Rows */}
-          <div className="divide-y divide-blue-800 dark:divide-blue-700">
+        {/* Table (desktop) */}
+        <div className="hidden md:block bg-black bg-opacity-50 border border-cyan-700 rounded-3xl shadow-xl">
+          <div className="divide-y divide-gray-700">
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="grid grid-cols-4 items-center gap-4 px-6 py-6"
+                className="grid grid-cols-4 gap-6 px-6 py-4"
               >
-                {/* Test Name */}
-                <div className="h-4 w-40 bg-gray-300 dark:bg-gray-600 rounded"></div>
-                {/* Last Score */}
-                <div className="h-4 w-20 bg-gray-300 dark:bg-gray-600 rounded mx-auto"></div>
-                {/* Status */}
-                <div className="h-6 w-16 bg-gray-400 dark:bg-gray-500 rounded-full mx-auto"></div>
-                {/* Actions */}
-                <div className="flex justify-center gap-3">
-                  <div className="h-8 w-20 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
-                  <div className="h-8 w-28 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
-                </div>
+                <div className="h-4 bg-gray-700 rounded w-3/4" />
+                <div className="h-4 bg-gray-700 rounded w-1/2 mx-auto" />
+                <div className="h-6 bg-gray-700 rounded w-20 mx-auto" />
+                <div className="h-8 bg-gray-600 rounded w-28 mx-auto" />
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="flex flex-col gap-6 md:hidden">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="rounded-3xl shadow-xl border border-cyan-700 bg-gray-900 bg-opacity-50 p-6 space-y-4"
+            >
+              <div className="h-5 w-2/3 bg-gray-700 rounded" />
+              <div className="h-4 w-1/2 bg-gray-700 rounded" />
+              <div className="h-4 w-1/3 bg-gray-700 rounded" />
+              <div className="flex gap-3 mt-2">
+                <div className="h-8 w-20 bg-gray-600 rounded" />
+                <div className="h-8 w-28 bg-gray-600 rounded" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
+

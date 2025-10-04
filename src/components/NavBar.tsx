@@ -4,13 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import axiosInstance from "@/lib/axiosInstance";
-import {
-  ChevronDown,
-  Menu,
-  X,
-  LogOut,
-  User,
-} from "lucide-react";
+import { ChevronDown, Menu, X, LogOut, User } from "lucide-react";
 import NavbarSkeleton from "./skeleton/NavarSkeleton";
 import SearchBar from "./SearchBar";
 
@@ -44,115 +38,103 @@ export default function Navbar() {
     };
     if (status === "authenticated") {
       getUserDetail();
+    } else {
+      setUserDetail(null);
     }
   }, [status]);
 
   if (status === "loading") return <NavbarSkeleton />;
-  if (error) return <div>ERROR: {error}</div>;
+  if (error) return <div className="p-4 text-red-500 font-semibold">{error}</div>;
 
   return (
-    <nav className="bg-white/90 backdrop-blur-xl sticky top-0 z-50 shadow-md border-b border-gray-100">
-      <div className="container mx-auto px-4">
-        {/* top row */}
-        <div className="flex items-center justify-between py-3">
+    <nav className="fixed w-full z-50 backdrop-blur-md bg-black bg-opacity-80 border-b border-cyan-700 shadow-lg">
+      <div className="container mx-auto max-w-7xl px-6 md:px-5">
+        {/* Top Row */}
+        <div className="flex items-center justify-between py-4">
+
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center text-3xl font-extrabold text-transparent bg-gradient-to-r from-indigo-600 via-fuchsia-500 to-yellow-400 bg-clip-text hover:scale-110 transition-transform"
+            className="flex items-center text-3xl font-extrabold tracking-wide bg-gradient-to-r from-pink-500 via-indigo-600 to-cyan-400 bg-clip-text text-transparent hover:scale-110 transition-transform duration-300"
+            aria-label="Homepage"
           >
-            <span className="text-indigo-600 drop-shadow">T</span>est
-            <span className="text-yellow-500 drop-shadow">U</span>
+            Think
+            <span className="text-yellow-400 drop-shadow-lg select-none ml-1">lix</span>
           </Link>
 
-          {/* Desktop center search */}
+          {/* Desktop Search */}
           <div className="hidden md:flex flex-1 justify-center px-8">
             <div className="w-full max-w-lg">
               <SearchBar />
             </div>
           </div>
 
-          {/* Desktop links & profile */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="/fields"
-              className="text-gray-700 font-medium hover:text-indigo-600 transition"
-            >
-              Fields
-            </Link>
-            <Link
-              href="/quizzes"
-              className="text-gray-700 font-medium hover:text-indigo-600 transition"
-            >
-              Quizzes
-            </Link>
-            <Link
-              href="/dashboard"
-              className="text-gray-700 font-medium hover:text-indigo-600 transition"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/leaderboard"
-              className="text-gray-700 font-medium hover:text-indigo-600 transition"
-            >
-              Leaderboard
-            </Link>
+          {/* Desktop nav + profile */}
+          <div className="hidden md:flex items-center space-x-10 text-cyan-300 font-semibold select-none">
 
-            {/* Coins */}
+            <Link href="/fields" className="hover:text-pink-400 transition-colors duration-300">Fields</Link>
+            <Link href="/quizzes" className="hover:text-pink-400 transition-colors duration-300">Quizzes</Link>
+            <Link href="/dashboard" className="hover:text-pink-400 transition-colors duration-300">Dashboard</Link>
+            <Link href="/leaderboard" className="hover:text-pink-400 transition-colors duration-300">Leaderboard</Link>
+
             {userDetail && (
               <div
-                className="text-yellow-600 font-bold cursor-default"
+                className="flex items-center text-yellow-400 font-bold cursor-default select-none justify-center"
                 title="Your total coins"
+                aria-label="User coins"
               >
                 🪙{userDetail.coins}
               </div>
             )}
 
-            {/* Profile */}
+            {/* Profile Dropdown */}
             {status === "authenticated" && session?.user ? (
               <div className="relative">
                 <button
-                  onClick={() =>
-                    setIsProfileDropdownOpen(!isProfileDropdownOpen)
-                  }
-                  className="flex items-center space-x-2 group"
+                  onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                  aria-haspopup="true"
+                  aria-expanded={isProfileDropdownOpen}
+                  className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-pink-400 rounded-md"
+                  aria-label="User menu"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-400 flex items-center justify-center ring-2 ring-indigo-300 shadow-lg overflow-hidden group-hover:scale-105 transition-transform border-2 border-white">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center ring-2 ring-indigo-300 shadow-lg overflow-hidden group-hover:scale-110 transition-transform border border-white">
                     {userDetail?.image ? (
                       <img
                         src={userDetail.image}
-                        alt="Profile"
+                        alt={`${userDetail.name}'s profile photo`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-lg font-bold text-white">
-                        {userDetail?.name?.charAt(0).toUpperCase()}
+                      <span className="text-lg font-semibold text-white uppercase">
+                        {userDetail?.name?.charAt(0) || "U"}
                       </span>
                     )}
                   </div>
-                  <ChevronDown
-                    size={18}
-                    className="text-gray-400 group-hover:text-indigo-600"
-                  />
+                  <ChevronDown size={18} className="text-cyan-400 group-hover:text-pink-400 transition-colors duration-300" />
                 </button>
+
                 {isProfileDropdownOpen && (
-                  <div className="absolute right-0 mt-3 w-52 bg-white border border-gray-200 rounded-xl shadow-2xl py-2 z-40">
-                    <div className="px-4 py-2 text-xs text-gray-500 border-b">
-                      Signed in as
-                      <br />
-                      <span className="font-semibold text-gray-700">
-                        {session.user.email}
-                      </span>
+                  <div
+                    role="menu"
+                    aria-orientation="vertical"
+                    className="absolute right-0 mt-3 w-56 bg-black bg-opacity-90 border border-cyan-600 rounded-2xl shadow-2xl py-2 text-cyan-300 z-50"
+                  >
+                    <div className="px-5 py-3 border-b border-cyan-700 text-sm select-text">
+                      Signed in as<br />
+                      <span className="font-semibold truncate block max-w-full text-white">{session.user.email}</span>
                     </div>
                     <Link
                       href="/profile"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors rounded-lg"
+                      role="menuitem"
+                      className="flex items-center gap-2 px-5 py-3 hover:bg-cyan-900 rounded-lg transition-colors duration-200"
+                      tabIndex={0}
                     >
                       <User size={16} /> View Profile
                     </Link>
                     <button
                       onClick={() => signOut()}
-                      className="flex items-center gap-2 w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 transition-colors rounded-b-lg border-t mt-2 pt-2"
+                      role="menuitem"
+                      className="flex items-center gap-2 w-full px-5 py-3 text-red-500 hover:bg-red-900 hover:text-white rounded-b-lg border-t border-red-600 transition-colors duration-200 font-semibold text-left focus:outline-none cursor-pointer"
                     >
                       <LogOut size={16} /> Logout
                     </button>
@@ -160,16 +142,16 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <button
                   onClick={() => signIn()}
-                  className="px-4 py-2 text-indigo-600 border-2 border-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition"
+                  className="px-5 py-2 text-cyan-300 border-2 border-cyan-300 rounded-lg font-semibold hover:bg-cyan-400 hover:text-black transition duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
                 >
                   Login
                 </button>
                 <Link
                   href="/auth/register"
-                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-md hover:shadow-xl transition"
+                  className="px-5 py-2 bg-gradient-to-r from-pink-500 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300"
                 >
                   Register
                 </Link>
@@ -177,75 +159,62 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile button */}
-          <div className="flex md:hidden items-center gap-3">
+          {/* Mobile menu trigger */}
+          <div className="flex md:hidden items-center gap-4">
             {userDetail && (
-              <span className="text-yellow-600 font-bold">🪙{userDetail.coins}</span>
+              <span className="text-yellow-400 font-bold select-none">🪙{userDetail.coins}</span>
             )}
             <button
+              aria-label="Toggle mobile menu"
               onClick={toggleMobileMenu}
-              className="text-gray-700 hover:text-indigo-800"
+              className="text-cyan-300 hover:text-pink-400 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400 rounded"
             >
-              {isMobileMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200">
-            <div className="p-4 space-y-4">
+          <div className="md:hidden bg-black bg-opacity-90 backdrop-blur-md border-t border-cyan-700 shadow-lg">
+            <div className="px-4 py-5 space-y-1">
               <div className="w-full">
                 <SearchBar />
               </div>
-              <Link
-                href="/fields"
-                className="block text-gray-700 font-medium hover:text-indigo-700"
-              >
+              <Link href="/fields" className="block px-3 py-3 rounded-md text-cyan-300 font-semibold hover:bg-cyan-700 transition">
                 Fields
               </Link>
-              <Link
-                href="/quizzes"
-                className="block text-gray-700 font-medium hover:text-indigo-700"
-              >
+              <Link href="/quizzes" className="block px-3 py-3 rounded-md text-cyan-300 font-semibold hover:bg-cyan-700 transition">
                 Quizzes
               </Link>
-              <Link
-                href="/dashboard"
-                className="block text-gray-700 font-medium hover:text-indigo-700"
-              >
+              <Link href="/dashboard" className="block px-3 py-3 rounded-md text-cyan-300 font-semibold hover:bg-cyan-700 transition">
                 Dashboard
               </Link>
-              <Link
-                href="/leaderboard"
-                className="block text-gray-700 font-medium hover:text-indigo-700"
-              >
+              <Link href="/leaderboard" className="block px-3 py-3 rounded-md text-cyan-300 font-semibold hover:bg-cyan-700 transition">
                 Leaderboard
               </Link>
-              <Link
-                href="/profile"
-                className="block text-gray-700 font-medium hover:text-indigo-700"
-              >
-                Pofile
+              <Link href="/profile" className="block px-3 py-3 rounded-md text-cyan-300 font-semibold hover:bg-cyan-700 transition">
+                Profile
               </Link>
+
               {status === "authenticated" ? (
                 <button
                   onClick={() => signOut()}
-                  className="w-full px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-sm hover:bg-red-600 transition"
+                  className="w-full px-5 py-3 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700 transition"
                 >
-                  <LogOut size={16} className="inline-block mr-1" /> Logout
+                  <LogOut size={18} className="inline-block mr-2" /> Logout
                 </button>
               ) : (
                 <>
                   <button
                     onClick={() => signIn()}
-                    className="w-full px-5 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-lg hover:bg-fuchsia-600"
+                    className="w-full px-5 py-3 bg-gradient-to-r from-pink-500 to-indigo-600 text-white font-semibold rounded-lg shadow hover:shadow-xl transition"
                   >
                     Login
                   </button>
                   <Link
                     href="/auth/register"
-                    className="block text-center w-full px-5 py-2 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white font-semibold rounded-lg shadow-lg hover:bg-fuchsia-600"
+                    className="block text-center w-full px-5 py-3 bg-gradient-to-r from-pink-500 to-indigo-600 text-white font-semibold rounded-lg shadow hover:shadow-xl transition"
                   >
                     Register
                   </Link>

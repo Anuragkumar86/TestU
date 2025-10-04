@@ -1,12 +1,12 @@
-# 🎓 TestU: The Modern Full-Stack Quiz Platform
+# 🎓 Thinklix: The Modern Full-Stack Quiz Platform
 
-TestU is a cutting-edge, feature-rich web application designed for creating, taking, and managing timed quizzes. Built with the **Next.js App Router** and the **T3 Stack** (Next.js, TypeScript, Tailwind CSS, Prisma), TestU provides a fast, responsive, and engaging learning environment.
+Thinklix is a cutting-edge, feature-rich web application designed for creating, taking, and managing timed quizzes. Built with the **Next.js App Router** and the **T3 Stack** (Next.js, TypeScript, Tailwind CSS, Prisma), Thinklix provides a fast, responsive, and engaging learning environment.
 
 ---
 
 ## ✨ Features
 
-TestU is engineered to deliver a clean user experience for both administrators (quiz creators) and students (quiz takers).
+Thinklix is engineered to deliver a clean user experience for both administrators (quiz creators) and students (quiz takers).
 
 ### 1. Competitive & Community Features
 - **Global Leaderboard**: Ranks users based on their `totalScore` derived from all quiz attempts, fostering a competitive environment and enabling users to track their progress.
@@ -49,7 +49,7 @@ TestU is engineered to deliver a clean user experience for both administrators (
 
 | Resource          | Link |
 |------------------|------|
-| Live Demo        | [] |
+| Live Demo        | **https://thinklix-web.vercel.app/** |
 | Video Explanation| [Coming Soon]    |
 
 ---
@@ -65,8 +65,8 @@ TestU is engineered to deliver a clean user experience for both administrators (
 
 **1. Clone the Repository**
 ```bash
-git clone [https://github.com/Anuragkumar86/TestU.git]
-cd TestU
+git clone [https://github.com/Anuragkumar86/Thinklix.git]
+cd Thinklix
 ```
 
 2. **Install Dependencies**
@@ -139,10 +139,13 @@ Below are some screenshots of the application in action:
 ### 🏆 Leaderboard  
 ![Leaderboard Screenshot](./public/leaderboard.png)
 
+### 🏆 Login  
+![Leaderboard Screenshot](./public/login.png)
+
 > **Tip:** Put your images in a `public/screenshots` folder (or any folder in your repo) and update the paths above accordingly.
 
 
 **5. 🤝 Contribution**
 
-This project is maintained by **Anurga Kumar**.
+This project is maintained by **Anurag Kumar**.
 Feel free to open an issue or submit a pull request for bug fixes or feature suggestions.

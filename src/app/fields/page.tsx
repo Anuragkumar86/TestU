@@ -55,7 +55,7 @@ export default async function FieldsPage(){
 
   
   return (
-      <div>
+      <div >
         <AllFields fields={fields} />
       </div>
     );
