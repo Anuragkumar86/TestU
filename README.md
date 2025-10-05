@@ -50,7 +50,7 @@ Thinklix is engineered to deliver a clean user experience for both administrator
 | Resource          | Link |
 |------------------|------|
 | Live Demo        | **https://thinklix-web.vercel.app/** |
-| Video Explanation| [Coming Soon]    |
+| Video Explanation| **https://youtu.be/LC4QgRFJCTU**    |
 
 ---
 
