@@ -52,14 +52,12 @@ export default function DashBoardPage() {
         if (status === "authenticated") getAllQuizAttempts();
     }, [session, currentPage]);
 
-
     if (status === "loading") {
         return <DashboardSkeleton />;
     }
 
-    
     const pageSize = 30;
-    const totalPages = Math.ceil(totalCount ?? 0 / pageSize);
+    const totalPages = Math.ceil((totalCount ?? 0) / pageSize);
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) router.push(`?page=${page}`);
@@ -92,7 +90,7 @@ export default function DashBoardPage() {
 
     return (
         <div className="container mx-auto p-4 md:p-8 space-y-8 bg-gray-900 min-h-screen text-white">
-            <h1 className="text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-pink-400 to-yellow-400 drop-shadow-lg">
+            <h1 className="text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-pink-400 to-yellow-400 drop-shadow-lg pt-16">
                 Your Progress Dashboard 📈
             </h1>
 
@@ -112,10 +110,11 @@ export default function DashBoardPage() {
                 </div>
             </div>
 
-            {/* Recent Attempts Table */}
+            {/* Recent Attempts Table/Card */}
             <div className="bg-gray-800 p-6 rounded-xl shadow-xl">
                 <h2 className="text-2xl font-semibold text-white mb-4">Your Recent Attempts</h2>
-                <div className="overflow-x-auto">
+                {/* DESKTOP TABLE */}
+                <div className="overflow-x-auto hidden md:block">
                     <table className="min-w-full divide-y divide-gray-700">
                         <thead className="bg-gray-700">
                             <tr>
@@ -123,7 +122,7 @@ export default function DashBoardPage() {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Topic</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Score</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Last Taken</th>
                             </tr>
                         </thead>
                         <tbody className="bg-gray-800 divide-y divide-gray-700">
@@ -133,7 +132,7 @@ export default function DashBoardPage() {
                                 return (
                                     <tr key={attempt.id} className="hover:bg-gray-700 transition">
                                         <td className="px-6 py-4 whitespace-nowrap font-medium text-white">{attempt.quiz.title}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-gray-300">{attempt.quiz.topic.name}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-pink-600 font-bold">{attempt.quiz.topic.name}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{attempt.score}/{totalQuestions}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${isPassed ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}>
@@ -146,6 +145,37 @@ export default function DashBoardPage() {
                             })}
                         </tbody>
                     </table>
+                </div>
+                {/* MOBILE CARDS */}
+                <div className="grid gap-4 md:hidden">
+                    {attempts && attempts.map((attempt) => {
+                        const totalQuestions = attempt.quiz.questions.length;
+                        const isPassed = (attempt.score / totalQuestions) * 100 >= 60;
+                        return (
+                            <div
+                                key={attempt.id}
+                                className="bg-gray-900 p-4 rounded-xl border border-gray-700 shadow hover:shadow-2xl transform hover:scale-105 transition"
+                            >
+                                <h3 className="font-bold text-lg text-indigo-400">{attempt.quiz.title}</h3>
+                                <p className="text-sm text-pink-600 font-semibold">Topic: {attempt.quiz.topic.name}</p>
+                                <p className="text-sm text-yellow-300">Score: {attempt.score}/{totalQuestions}</p>
+                                <span
+                                    className={`px-3 py-1 my-2 rounded-full text-xs font-semibold inline-block ${isPassed ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`}
+                                >
+                                    {isPassed ? 'Passed' : 'Failed'}
+                                </span>
+                                <p className="text-sm text-gray-300">Date: {
+                                    new Date(attempt.createdAt).toLocaleString("en-US", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                    })}</p>
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {totalPages > 1 && (
@@ -175,7 +205,7 @@ export default function DashBoardPage() {
                                 <p className="text-sm text-red-400">Last Score: {attempt.score}/{attempt.quiz.questions.length}</p>
                                 <p className="text-sm text-yellow-400">Last Taken: {new Date(attempt.createdAt).toLocaleString("en-US", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true })}</p>
                                 <div className="mt-2 flex justify-end">
-                                    <RetakeButton quizId={attempt.quiz.id} topicNameSlug={attempt.quiz.topic.name} quizTitle={attempt.quiz.title} 
+                                    <RetakeButton quizId={attempt.quiz.id} topicNameSlug={attempt.quiz.topic.name} quizTitle={attempt.quiz.title}
                                     />
                                 </div>
                             </div>

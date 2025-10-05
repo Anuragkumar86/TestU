@@ -49,7 +49,7 @@ export default function SpecificFieldTopics({ field }: SpecificFieldTopicsProps)
       }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-fuchsia-100 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-900 py-12 px-0">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-fuchsia-100 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-900 pt-20 px-0">
       <h1 className="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 via-fuchsia-500 to-yellow-500 dark:from-indigo-300 dark:via-fuchsia-400 dark:to-yellow-200 mb-4 text-center drop-shadow-lg">
         Explore Topics
       </h1>

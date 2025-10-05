@@ -29,7 +29,6 @@ export default function MyProfilePage() {
         const response = await axios.get("/api/user/me");
         setUser(response.data.user);
       } catch (err) {
-        console.error(err);
         setError("Unable to get the user data");
       }
     };
@@ -67,124 +66,152 @@ export default function MyProfilePage() {
 
   if (status === "loading")
     return (
-      <div className="text-gray-400 text-center mt-16 text-xl font-medium">
+      <div className="text-gray-400 text-center mt-20 text-2xl font-bold tracking-wide animate-pulse">
         Checking session...
       </div>
     );
 
   if (status === "unauthenticated")
     return (
-      <div className="text-center mt-20">
-        <p className="text-red-500 font-semibold text-lg mb-4">
-          You must be logged in to view this page.
-        </p>
-        <Link
-          href="/api/auth/signin"
-          className="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-lg hover:from-purple-600 hover:to-indigo-600 transition"
-        >
-          Login
-        </Link>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-tr from-fuchsia-700 via-indigo-900 to-gray-900">
+        <div className="bg-white/10 backdrop-blur-md p-10 rounded-3xl border border-fuchsia-600 shadow-xl text-center space-y-6">
+          <p className="text-pink-400 font-bold text-xl mb-2">
+            You must be logged in to view this page.
+          </p>
+          <Link
+            href="/api/auth/signin"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-fuchsia-500 to-indigo-500 text-white rounded-2xl shadow-lg font-semibold text-lg hover:scale-105 hover:bg-gradient-to-l transition"
+          >
+            Login
+          </Link>
+        </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="text-center mt-20 text-red-500 font-semibold text-2xl">
-        {error}
+      <div className="text-center min-h-screen flex flex-col items-center justify-center bg-gradient-to-tr from-fuchsia-700 via-indigo-900 to-gray-900">
+        <div className="bg-white/10 px-8 py-12 rounded-3xl border border-pink-600 shadow-xl text-2xl font-bold text-pink-400">
+          {error}
+        </div>
       </div>
     );
 
   if (!user)
     return (
-      <div className="text-gray-400 text-center mt-20 text-xl">Loading profile...</div>
+      <div className="text-gray-400 text-center mt-24 text-2xl font-bold">
+        Loading profile...
+      </div>
     );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 py-14 pt-32">
-      <div className="max-w-5xl mx-auto bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-2xl p-10 border border-gray-700">
-        <h1 className="text-4xl font-extrabold text-center text-indigo-400 mb-10 drop-shadow-lg">
+    <div className="min-h-screen bg-gradient-to-tr from-fuchsia-900 via-violet-900 to-indigo-900 py-8 md:py-20 px-2 flex flex-col items-center">
+      <div className="w-full max-w-5xl mx-auto bg-white/10 shadow-2xl rounded-3xl border-2 border-violet-600/60 p-7 md:p-12 backdrop-blur-2xl space-y-12">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent from-fuchsia-400 via-pink-400 to-yellow-400 bg-gradient-to-br bg-clip-text drop-shadow-xl text-center pb-4">
           My Profile
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Profile Card */}
-          <div className="bg-gray-800 rounded-2xl p-8 shadow-lg flex flex-col items-center border border-indigo-600">
-            <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-inner ring-4 ring-indigo-500">
-              {user.image ? (
-                <img
-                  src={user.image}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 text-white text-5xl font-extrabold select-none">
-                  {user.name?.charAt(0).toUpperCase() ?? "U"}
-                </div>
-              )}
-            </div>
-            <h2 className="mt-6 text-2xl font-bold text-indigo-300">{user.name}</h2>
-
-            <div className="mt-6 flex gap-4">
-              {user.accounts && user.accounts[0]?.provider === "google" ? (
-                <Link
-                  href="https://myaccount.google.com/security"
-                  target="_blank"
-                  className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md font-semibold transition"
-                  rel="noopener noreferrer"
-                >
-                  Manage Password
-                </Link>
-              ) : (
-                <button
-                  onClick={() => setShowPasswordForm(true)}
-                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-md font-semibold transition"
-                  aria-label="Change password"
-                >
-                  Change Password
-                </button>
-              )}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-8">
+          {/* Profile Identity Card */}
+          <div className="basis-[320px] flex-shrink-0 w-full md:w-auto">
+            <div className="bg-white/20 border-2 border-fuchsia-400/40 shadow-lg rounded-2xl p-7 flex flex-col items-center backdrop-blur-lg">
+              <div className="w-32 h-32 rounded-full overflow-hidden shadow-md ring-4 ring-fuchsia-400/70 bg-black/20">
+                {user.image ? (
+                  <img
+                    src={user.image}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white text-5xl font-extrabold">
+                    {user.name?.charAt(0).toUpperCase() ?? "U"}
+                  </div>
+                )}
+              </div>
+              <h2 className="mt-7 text-2xl font-bold text-white bg-clip-text">
+                {user.name}
+              </h2>
+              <div className="mt-7 flex flex-col gap-2 w-full">
+                {user.accounts &&
+                user.accounts[0]?.provider === "google" ? (
+                  <Link
+                    href="https://myaccount.google.com/security"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full text-center text-white px-6 py-2 rounded-xl bg-blue-600 hover:to-indigo-500 transition duration-300 hover:scale-105"
+                  >
+                    Manage Password
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setShowPasswordForm(true)}
+                    className="w-full text-center px-6 py-2 rounded-xl bg-gradient-to-r from-pink-600 to-fuchsia-600 font-bold text-white shadow-md hover:from-yellow-400 hover:to-pink-400 transition duration-300 hover:scale-105"
+                    aria-label="Change password"
+                  >
+                    Change Password
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-
-          {/* Info Cards */}
-          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {[
-              { label: "Email", value: user.email },
-              { label: "Role", value: user.role },
-              { label: "Joined Date", value: new Date(user.createdAt).toLocaleDateString() },
-              {
-                label: "Total Coins",
-                value: (
-                  <span className="text-yellow-400 font-bold text-xl">🪙 {user.coins}</span>
-                ),
-              },
-              { label: "Total Score", value: user.totalScore },
-            ].map(({ label, value }) => (
-              <div
-                key={label}
-                className="bg-gray-700 rounded-2xl p-6 shadow-md border border-indigo-600"
-              >
-                <p className="text-sm text-indigo-400 font-semibold mb-1">{label}</p>
-                <p className="text-lg font-medium">{value}</p>
+          {/* Info panel */}
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-7">
+            {/* Email */}
+            <div className="flex flex-col bg-white/20 p-6 rounded-2xl border-2 border-indigo-600/50 shadow-md min-w-0 break-all">
+              <p className="font-semibold text-sm text-white mb-2">Email</p>
+              <div className="w-full overflow-x-auto hide-scrollbar">
+                <span className="text-yellow-300 font-medium whitespace-pre-line break-all block">
+                  {user.email}
+                </span>
               </div>
-            ))}
+            </div>
+            {/* Role */}
+            <div className="flex flex-col bg-white/20 p-6 rounded-2xl border-2 border-pink-600/40 shadow-md">
+              <p className="font-semibold text-sm text-white mb-2">Role</p>
+              <span className="text-yellow-300 font-medium capitalize">{user.role}</span>
+            </div>
+            {/* Joined */}
+            <div className="flex flex-col bg-white/20 p-6 rounded-2xl border-2 border-yellow-400/40 shadow-md">
+              <p className="font-semibold text-sm text-white mb-2">
+                Joined Date
+              </p>
+              <span className="text-yellow-300 font-medium">
+                {new Date(user.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+            {/* Coins */}
+            <div className="flex flex-col bg-white/20 p-6 rounded-2xl border-2 border-fuchsia-300/40 shadow-md">
+              <p className="font-semibold text-sm text-white mb-2">
+                Total Coins
+              </p>
+              <span className="block text-2xl font-bold text-yellow-300">
+                🪙 {user.coins}
+              </span>
+            </div>
+            {/* Score */}
+            <div className="flex flex-col bg-white/20 p-6 rounded-2xl border-2 border-indigo-400/40 shadow-md">
+              <p className="font-semibold text-sm text-white mb-2">
+                Total Score
+              </p>
+              <span className="block text-xl font-bold text-yellow-400">{user.totalScore}</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Password Change Modal */}
       {showPasswordForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 p-4">
-          <div className="bg-gray-800 rounded-3xl shadow-2xl max-w-md w-full p-8 relative border border-indigo-600">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="bg-white/10 border-2 border-fuchsia-500/50 p-8 w-full max-w-md rounded-3xl backdrop-blur-xl shadow-2xl relative">
             <button
               onClick={() => setShowPasswordForm(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-2xl font-bold"
+              className="absolute top-3 right-3 text-xl text-pink-200 hover:text-pink-400 transition"
               aria-label="Close password form"
             >
               &times;
             </button>
-            <h2 className="text-2xl font-bold mb-6 text-center text-indigo-400">
+            <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-fuchsia-400 to-indigo-400 bg-clip-text text-transparent mb-7">
               Change Password
             </h2>
             <form onSubmit={handlePasswordChangeSubmit} className="space-y-5">
@@ -202,7 +229,7 @@ export default function MyProfilePage() {
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl bg-gray-700 border border-indigo-600 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-white"
+                  className="w-full rounded-xl bg-gray-900 border border-indigo-500 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-fuchsia-300 transition text-white placeholder-gray-400"
                 />
               </div>
               <div>
@@ -219,7 +246,7 @@ export default function MyProfilePage() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl bg-gray-700 border border-indigo-600 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-white"
+                  className="w-full rounded-xl bg-gray-900 border border-indigo-500 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-fuchsia-300 transition text-white placeholder-gray-400"
                 />
               </div>
               <div>
@@ -236,12 +263,12 @@ export default function MyProfilePage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className="w-full rounded-xl bg-gray-700 border border-indigo-600 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-white"
+                  className="w-full rounded-xl bg-gray-900 border border-indigo-500 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-fuchsia-300 transition text-white placeholder-gray-400"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-pink-500 to-fuchsia-500 font-bold text-lg text-white hover:from-indigo-500 hover:to-fuchsia-500 transition hover:scale-105"
                 aria-label="Update password"
               >
                 Update Password
@@ -250,6 +277,17 @@ export default function MyProfilePage() {
           </div>
         </div>
       )}
+
+      {/* custom hide-scrollbar utility for email overflow */}
+      <style>{`
+        .hide-scrollbar {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 }

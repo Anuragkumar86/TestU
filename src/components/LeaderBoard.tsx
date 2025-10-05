@@ -46,8 +46,8 @@ export default function LeaderBoard({ users }: LeaderboardProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-pink-900 p-4 sm:p-8">
-      <header className="text-center mb-10">
+    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-pink-900 p-4 sm:p-8 pt-40">
+      <header className="text-center mb-10 pt-20">
         <h1 className="text-4xl font-extrabold text-yellow-500 tracking-tight">
           🏆 Top 15 Achievers Leaderboard 🏆
         </h1>
