@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ explanation: text });
 
-    } catch (err: unknown) {
+    } catch (err: any) {
         if (axios.isAxiosError(err)) {
             console.error('API Error:', err.response?.data || err.message);
             return NextResponse.json(
