@@ -1,0 +1,72 @@
+name: QuizMaster CI Checks
+
+# 1. Trigger Definition: Runs on pushes to main and all Pull Requests targeting main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# 2. Jobs Definition
+jobs:
+  build-and-test:
+    # A. Environment Setup
+    runs-on: ubuntu-latest
+    
+    # B. Define the execution steps
+    steps:
+      
+      # Step 1: Checkout Code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js and Caching
+      - name: Setup Node.js and npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm' # Cache node_modules using npm's lock file
+          
+      # Step 3: Install Dependencies
+      # npm ci is faster and ensures clean, reproducible installs from package-lock.json
+      - name: Install dependencies
+        run: npm ci 
+
+      # Step 4: Quality Gate 1: TypeScript Check (Type Safety)
+      - name: Run TypeScript type check
+        run: npm run type-check
+
+      # Step 5: Quality Gate 2: Linting Check (Code Style & Static Errors)
+      - name: Run ESLint check
+        run: npm run lint
+        
+      # Step 6: Quality Gate 3: Production Build Check
+      - name: Run Next.js build check
+        run: npm run build
+        env:
+          # --- CRITICAL VARIABLES FOR NEXT.JS BUILD ---
+          # NOTE: The indentation for these variables is now CORRECT.
+          DATABASE_URL: 'dummy_db_url' 
+          NEXTAUTH_SECRET: 'dummy_auth_secret_for_ci'
+          REDIS_URL: 'redis://localhost:6379'
+          NEXT_PUBLIC_API_BASE: 'dummy_url'
+          NEXTAUTH_URL: 'http://localhost:3000'
+
+          # --- GOOGLE/AI VARIABLES ---
+          GEMINI_API_KEY: 'dummy_ai_key'
+          GOOGLE_CLIENT_ID: 'dummy_google_id'
+          GOOGLE_CLIENT_SECRET: 'dummy_google_secret'
+          
+          # Assuming these are for an external service like Cloudinary, required during build
+          CLOUD_NAME: 'google_dummy'
+          UPLOAD_PRESET_NAME: 'preset_dummy'
+
+          # --- PASSWORD RESET/EMAIL VARIABLES ---
+          EMAIL_SERVER_HOST: 'smtp.dummy.com'
+          EMAIL_SERVER_PORT: 587
+          EMAIL_SERVER_USER: 'dummy_user'
+          EMAIL_SERVER_PASSWORD: 'dummy_password'
+          EMAIL_FROM: 'no-reply@quizmaster.com'
+          EMAIL_SECURE: "no"
