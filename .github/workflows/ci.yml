@@ -48,7 +48,7 @@ jobs:
         env:
           # --- CRITICAL VARIABLES FOR NEXT.JS BUILD ---
           # NOTE: The indentation for these variables is now CORRECT.
-          DATABASE_URL: 'dummy_db_url' 
+          DATABASE_URL: 'postgresql://ci_user:ci_password@localhost:5432/ci_db' 
           NEXTAUTH_SECRET: 'dummy_auth_secret_for_ci'
           REDIS_URL: 'redis://localhost:6379'
           NEXT_PUBLIC_API_BASE: 'dummy_url'

@@ -29,7 +29,7 @@ export default function DashBoardPage() {
     const [attempts, setUserAttempts] = useState<quizAttemptsProps[] | null>(null);
     const [allAttemptsForRetake, setAllAttemptsForRetake] = useState<quizAttemptsProps[] | null>(null);
 
-    const [error, setError] = useState("");
+    const [, setError] = useState("");
     const { data: session, status } = useSession();
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function DashBoardPage() {
             }
         };
         if (status === "authenticated") getAllQuizAttempts();
-    }, [session, currentPage]);
+    }, [session, currentPage, status]);
 
     if (status === "loading") {
         return <DashboardSkeleton />;

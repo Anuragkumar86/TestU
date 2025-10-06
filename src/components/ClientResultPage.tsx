@@ -44,7 +44,7 @@ export default function ClientResultsPage({ attemptId }: ClientResultsPageProps)
   const [loading, setLoading] = useState(true);
   const [explanation, setExplanation] = useState<{ [key: string]: string }>({});
   const [loadingExplanation, setLoadingExplanation] = useState<string | null>(null);
-  const [error , setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   const { data: session } = useSession();
 
@@ -53,7 +53,7 @@ export default function ClientResultsPage({ attemptId }: ClientResultsPageProps)
       try {
         const data = await fetchQuizAttempt(attemptId);
         setQuizAttempt(data);
-      } catch (err) {
+      } catch{
         setError("Failed to load quiz data.");
       } finally {
         setLoading(false);

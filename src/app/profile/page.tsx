@@ -28,12 +28,12 @@ export default function MyProfilePage() {
       try {
         const response = await axios.get("/api/user/me");
         setUser(response.data.user);
-      } catch (err) {
+      } catch {
         setError("Unable to get the user data");
       }
     };
     if (status === "authenticated") getuser();
-  }, [session]);
+  }, [session, status]);
 
   const handlePasswordChangeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

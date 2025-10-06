@@ -38,7 +38,7 @@ export default function AdminUserManagement() {
                 const response = await axios.get("/api/admin/maintain-user");
                 setUsers(response.data.users);
                 setError(""); // Clear any previous errors
-            } catch (err) {
+            } catch{
                 setError("Unable to fetch Users. Please check the API.");
             }
         };
@@ -70,7 +70,7 @@ export default function AdminUserManagement() {
             // Provide user feedback
             toast.success("User role updated successfully!");
 
-        } catch (err) {
+        } catch{
             setError("Unable to update user Role. Please try again.");
             toast.error("Failed to update user role.");
         }
