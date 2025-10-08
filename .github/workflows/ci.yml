@@ -52,10 +52,10 @@ jobs:
           NEXT_PUBLIC_API_BASE: ${{ secrets.NEXT_PUBLIC_API_BASE }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}  
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
-          UPLOAD_PRESET_NAME: ${{ secrets.UPLOAD_PRESET_NAME }}
+          UPLOAD_PRESET_NAME: ${{ secrets.UPLOAD_PRESET_NAME }} 
           EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
           EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
           EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
