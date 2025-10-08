@@ -44,29 +44,21 @@ jobs:
         
       # Step 6: Quality Gate 3: Production Build Check
       - name: Run Next.js build check
-        run: npm run build
+        run: npm run ci-build
         env:
-          # --- CRITICAL VARIABLES FOR NEXT.JS BUILD ---
-          # NOTE: The indentation for these variables is now CORRECT.
-          DATABASE_URL: 'postgresql://ci_user:ci_password@localhost:5432/ci_db' 
-          NEXTAUTH_SECRET: 'dummy_auth_secret_for_ci'
-          REDIS_URL: 'redis://localhost:6379'
-          NEXT_PUBLIC_API_BASE: 'dummy_url'
-          NEXTAUTH_URL: 'http://localhost:3000'
-
-          # --- GOOGLE/AI VARIABLES ---
-          GEMINI_API_KEY: 'dummy_ai_key'
-          GOOGLE_CLIENT_ID: 'dummy_google_id'
-          GOOGLE_CLIENT_SECRET: 'dummy_google_secret'
-          
-          # Assuming these are for an external service like Cloudinary, required during build
-          CLOUD_NAME: 'google_dummy'
-          UPLOAD_PRESET_NAME: 'preset_dummy'
-
-          # --- PASSWORD RESET/EMAIL VARIABLES ---
-          EMAIL_SERVER_HOST: 'smtp.dummy.com'
-          EMAIL_SERVER_PORT: 587
-          EMAIL_SERVER_USER: 'dummy_user'
-          EMAIL_SERVER_PASSWORD: 'dummy_password'
-          EMAIL_FROM: 'no-reply@quizmaster.com'
-          EMAIL_SECURE: "no"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_API_BASE: ${{ secrets.NEXT_PUBLIC_API_BASE }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
+          UPLOAD_PRESET_NAME: ${{ secrets.UPLOAD_PRESET_NAME }}
+          EMAIL_SERVER_HOST: ${{ secrets.EMAIL_SERVER_HOST }}
+          EMAIL_SERVER_PORT: ${{ secrets.EMAIL_SERVER_PORT }}
+          EMAIL_SERVER_USER: ${{ secrets.EMAIL_SERVER_USER }}
+          EMAIL_SERVER_PASSWORD: ${{ secrets.EMAIL_SERVER_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_SECURE: ${{ secrets.EMAIL_SECURE }}
