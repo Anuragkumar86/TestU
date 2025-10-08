@@ -44,7 +44,7 @@ jobs:
         
       # Step 6: Quality Gate 3: Production Build Check
       - name: Run Next.js build check
-        run: npm run ci-build
+        run: npm run build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
