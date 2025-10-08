@@ -1,4 +1,4 @@
-name: QuizMaster CI Checks
+name: ThinkLix CI Checks
 
 # 1. Trigger Definition: Runs on pushes to main and all Pull Requests targeting main
 on:
